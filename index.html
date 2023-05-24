@@ -137,7 +137,6 @@
                 var aspect = window.innerWidth/window.innerHeight;
                 camera = new THREE.PerspectiveCamera(Fov, aspect, 1, 1000);
                 camera.position.set(1, 1, 5);
-                camera.updateProjectionMatrix();
                 scene.add(camera);
 
                 // Add the maze.
@@ -268,7 +267,7 @@
                         maze[mazeDimension-1][mazeDimension-2] = false;
                         console.log(maze);
                         fake_friction = 0.95;
-                        fieldOfView = 55;
+                        Fov = 55;
                         createPhysicsWorld();
                         createRenderWorld();
                         camera.position.set(1, 1, 5);
