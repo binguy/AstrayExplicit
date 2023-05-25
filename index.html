@@ -293,7 +293,7 @@
                         if (level>10){
                             downloadButton.disabled = false;
                         }
-                        gameState = 'fade in'
+                        gameState = 'fade in';
                         break;
                         
                     case 'fade in':
@@ -324,7 +324,7 @@
                             fov_pc = parseFloat((sum_emotions[2]/(750+level*10)).toFixed(2))*100;
                             speed_pc = parseFloat((sum_emotions[1]/(1000+level*10)).toFixed(2))*100;
                             color_pc = parseFloat((sum_emotions[0]/(500+level*10)).toFixed(2))*100;
-                            $('#bars').html(`Increase FoV: ${Math.min(fov_pc,100)+"%"}<br>Increse Speed: ${Math.min(speed_pc,100)+"%"}<br>Change Color: ${Math.min(color_pc,100)+"%"}`)
+                            $('#bars').html(`Increase FoV: ${Math.min(fov_pc,100)+"%"}<br>Increse Speed: ${Math.min(speed_pc,100)+"%"}<br>Change Color: ${Math.min(color_pc,100)+"%"}`);
                         }
                         //console.log("Neutral:" + emotions[0] + " Happy: " + emotions[1] + " Angry: " + emotions[2] + " Surprised: " + emotions[3] + " Sad: " + emotions[4] + " Disgusted: " + emotions[5] + " Fearful: " + emotions[6]);
                         break;
@@ -437,7 +437,7 @@
                 KeyboardJS.bind.axis('left', 'right', 'down', 'up', onMoveKey);
                 KeyboardJS.bind.axis('h', 'l', 'j', 'k', onMoveKey);
                 $(window).resize(onResize);
-
+                
                 // Bind keyboard events to bar actions.
                 KeyboardJS.bind.key('3', function() {if (Math.min(color_pc, 100)===100) {Light_Color=getRandomColor(); light.color.setHex(Light_Color); console.log(Light_Color); appendLog("Color is changed to: " + Light_Color + "At count: " + count + "With Sum. Emotions: " + sum_emotions + ", When Fov_pc is "+ fov_pc + " and speed_pc is" + speed_pc); color_pc=0; sum_emotions[0]=0}}, function() {});
                 KeyboardJS.bind.key('2', function() {if (Math.min(speed_pc, 100)===100) {fake_friction = 0.97; appendLog("Speed has changed at count: " + count + "With Sum. Emotions: " + sum_emotions + ", When color_pc is "+ color_pc + " and fov_pc is" + fov_pc); speed_pc=0; sum_emotions[1]=0}}, function() {});
@@ -445,6 +445,9 @@
                 // Set the initial game state.
                 gameState = 'initialize';
                 
+                downloadButton = document.getElementById('downloadButton');
+                downloadButton.addEventListener('click', downloadLogs);
+                downloadButton.disabled = true;
                 // Start the game loop.
                 requestAnimationFrame(gameLoop);
 
