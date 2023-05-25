@@ -28,6 +28,8 @@
                 gameState      = undefined,
                 level          = 1,
                 mazeDimension  = 11,
+                logs           = '',
+                downloadButton = undefined,
 
                 // Emotion variables
                 emotions       = [0, 0, 0, 0, 0, 0, 0],
@@ -60,6 +62,18 @@
                 wBall          = undefined;
 
 
+            function appendLog(log) {
+                logs += log + '\n';
+            }
+            function downloadLogs() {
+                var blob = new Blob([logs], {type: 'text/plain'});
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'logs.txt';
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
             
             function createPhysicsWorld() {
                 // Create the world object.
@@ -275,6 +289,10 @@
                         light.intensity = 0;
                         level = Math.floor((mazeDimension-1)/2 - 4);
                         $('#level').html('Level ' + level);
+                        appendLog('Level ' + level + ', count: ' + count + ', Sum Emotions: ' + sum_emotions);
+                        if (level>10){
+                            downloadButton.disabled = false;
+                        }
                         gameState = 'fade in'
                         break;
                         
@@ -421,9 +439,9 @@
                 $(window).resize(onResize);
 
                 // Bind keyboard events to bar actions.
-                KeyboardJS.bind.key('3', function() {if (Math.min(color_pc, 100)===100) {Light_Color=getRandomColor(); light.color.setHex(Light_Color); console.log(Light_Color); color_pc=0; sum_emotions[0]=0}}, function() {});
-                KeyboardJS.bind.key('2', function() {if (Math.min(speed_pc, 100)===100) {fake_friction = 0.97; speed_pc=0; sum_emotions[1]=0}}, function() {});
-                KeyboardJS.bind.key('1', function() {if (Math.min(fov_pc, 100)===100) {var interval = setInterval(function () {Fov+=1; camera.fov=Fov; camera.updateProjectionMatrix(); if(Fov>=70){clearInterval(interval)}}, 5); fov_pc=0; sum_emotions[2]=0}}, function() {});
+                KeyboardJS.bind.key('3', function() {if (Math.min(color_pc, 100)===100) {Light_Color=getRandomColor(); light.color.setHex(Light_Color); console.log(Light_Color); appendLog("Color is changed to: " + Light_Color + "At count: " + count + "With Sum. Emotions: " + sum_emotions + ", When Fov_pc is "+ fov_pc + " and speed_pc is" + speed_pc); color_pc=0; sum_emotions[0]=0}}, function() {});
+                KeyboardJS.bind.key('2', function() {if (Math.min(speed_pc, 100)===100) {fake_friction = 0.97; appendLog("Speed has changed at count: " + count + "With Sum. Emotions: " + sum_emotions + ", When color_pc is "+ color_pc + " and fov_pc is" + fov_pc); speed_pc=0; sum_emotions[1]=0}}, function() {});
+                KeyboardJS.bind.key('1', function() {if (Math.min(fov_pc, 100)===100) {var interval = setInterval(function () {Fov+=1; camera.fov=Fov; camera.updateProjectionMatrix(); if(Fov>=70){clearInterval(interval)}}, 5); appendLog("Field of View ahas changed at count: " + count + "With Sum. Emotions: " + sum_emotions + ", When color_pc is "+ color_pc + " and speed_pc is" + speed_pc); fov_pc=0; sum_emotions[2]=0}}, function() {});
                 // Set the initial game state.
                 gameState = 'initialize';
                 
@@ -494,6 +512,13 @@
                 display: inline;
                 border: 2px solid white;
             }
+            #downloadButton {
+                position: absolute;
+                left: 0;
+                top: 150px;
+                padding: 4px;
+                color: Black;
+            }
 
         </style>
         
@@ -551,7 +576,7 @@
     </div>
 
     <video id='video' width="720" height="460" autoplay muted></video>
-    
+    <button id="downloadButton" disabled>Download Logs</button>
     </body>
 
 </html>
