@@ -1,6 +1,6 @@
 # Astray Explicit
 
-The research experiment of WebGL maze game called Astray built with Three.js and Box2dWeb for my paper. You can checkout the original Asray here: http://wwwtyro.github.io/Astray/. You can play my version at https://mybingamer.github.io/AstrayExplicit
+The research experiment of WebGL maze game called Astray built with Three.js and Box2dWeb for my paper. You can checkout the original Astray here: http://wwwtyro.github.io/Astray/. You can play my version at https://mybingamer.github.io/AstrayExplicit
 
 ### Launching
 
